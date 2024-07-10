@@ -1,6 +1,5 @@
 import Sidebar from "./Sidebar/Sidebar"
 import Windowtitle from "../Windowtitle"
-import Serverbar from "./Serverbar"
 
 export default function App() {
   return(
@@ -8,7 +7,6 @@ export default function App() {
       <Windowtitle />
       <div className="flex flex-row">
         <Sidebar />
-        <Serverbar />
       </div>
     </div>
   )
