@@ -3,7 +3,7 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { FaCirclePlus } from "react-icons/fa6";
 import { FaTrash } from "react-icons/fa";
 
-export default function ServerMenu() {
+export default function ServerMenu({ deleteServer } : { deleteServer: any }) {
     return(
         <div className="absolute bg-[#111214] w-[11vw] rounded flex flex-col text-[#969aa0] ">
             
@@ -14,7 +14,7 @@ export default function ServerMenu() {
 
             <hr className="bg-[#28292d] border border-[#28292d] mx-2" /> 
 
-            <div className="mx-2 my-1 rounded flex flex-row items-center hover:bg-[#da373c] hover:text-white text-[#da373c] cursor-pointer">              
+            <div className="mx-2 my-1 rounded flex flex-row items-center hover:bg-[#da373c] hover:text-white text-[#da373c] cursor-pointer" onClick={deleteServer}>              
                 <p className="pl-2">Server Löschen</p>
                 <FaTrash size={15} className="ml-[3.75rem]" />
             </div>

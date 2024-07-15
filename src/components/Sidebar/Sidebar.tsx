@@ -13,6 +13,8 @@ import { DiscordBarIcon, SideBarIcon, ServerIcon } from "./Sidebaricons";
 export default function Sidebar() {
     const [channelsVisible, setChannelsVisible] = useState(false);
     const [createServerVisible, setCreateServerVisible] = useState(false);
+    const [selectedServer, setSelectedServer] = useState([]);
+
 
     const toggleChannels = () => {
         setChannelsVisible(!channelsVisible);
@@ -24,13 +26,13 @@ export default function Sidebar() {
 
     return(
         <>
-            <Sidebarhtml toggleChannels={toggleChannels} toggleCreateServer={toggleCreateServer} setCreateServerVisible={setCreateServerVisible} createServerVisible={createServerVisible} />
-            <Channelbar channelsVisible={channelsVisible} />
+            <Sidebarhtml toggleChannels={toggleChannels} toggleCreateServer={toggleCreateServer} setCreateServerVisible={setCreateServerVisible} createServerVisible={createServerVisible} setSelectedServer={setSelectedServer} selectedServer={selectedServer} />
+            <Channelbar channelsVisible={channelsVisible} selectedServer={selectedServer} />
         </>
     );
 }
 
-function Sidebarhtml({ toggleChannels, toggleCreateServer, setCreateServerVisible, createServerVisible } : { toggleChannels: any, toggleCreateServer: any, setCreateServerVisible: React.Dispatch<React.SetStateAction<boolean>>, createServerVisible: Boolean}) {
+function Sidebarhtml({ toggleChannels, toggleCreateServer, setCreateServerVisible, createServerVisible, setSelectedServer, selectedServer } : { toggleChannels: any, toggleCreateServer: any, setCreateServerVisible: React.Dispatch<React.SetStateAction<boolean>>, createServerVisible: Boolean, setSelectedServer: React.Dispatch<React.SetStateAction<never[]>>, selectedServer: any }) {
 
     // firebase
     
@@ -39,7 +41,6 @@ function Sidebarhtml({ toggleChannels, toggleCreateServer, setCreateServerVisibl
     const [imageUrl, setImageUrl] = useState('');
     const [serverName, setServerName] = useState('');
     const [servers, setServers] = useState<any[]>([]);
-
     useEffect(() => {
         const queryServers = query(serversRef);
         onSnapshot(queryServers, (snapshot) => {
@@ -52,7 +53,6 @@ function Sidebarhtml({ toggleChannels, toggleCreateServer, setCreateServerVisibl
     }, []);
 
     const handleSubmit = async (e: React.ChangeEvent<any>) => {
-
         e.preventDefault();
 
         if (imageUrl === "" || serverName === "" ) return;
@@ -79,9 +79,12 @@ function Sidebarhtml({ toggleChannels, toggleCreateServer, setCreateServerVisibl
                 <Divider />
 
                 <div>
-
                     <div onClick={toggleChannels}>
-                        {servers.map((server) => <ServerIcon icon={server.imageUrl} server_name={server.name} key={server.id} />)}
+                        {servers.map((server) => { return(
+                            <div onClick={() => selectedServer.splice(0, selectedServer.length, {name: server.name, id: server.id})} >
+                                <ServerIcon icon={server.imageUrl} server_name={server.name} key={server.id} />
+                            </div>
+                            );})}
                     </div>
 
                     <div onClick={toggleCreateServer}>
